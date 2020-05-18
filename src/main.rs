@@ -4,16 +4,25 @@
  * to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!
  */
 fn pig_latenize(text: &str) -> String {
-    let mut pig_lat = String::new();
-    let chars = text.chars();
-
-    for ch in chars {
-        pig_lat.push(ch);
+    let words = text.split_whitespace();
+    let mut pig_latin = String::new();
+    let modified = words.map(add_hay);
+    for word in modified {
+        pig_latin = format!("{} {}", pig_latin, word);
     }
+    return pig_latin;
+}
 
-    return pig_lat;
+fn add_hay(word: &str) -> String {
+    let first_char = word.to_lowercase().chars().next().unwrap();
+    match first_char {
+        // Starts with Vowel
+        'a' | 'e' | 'i' | 'o' | 'u' => return format!("{}-hay", word),
+        // Starts with Consonant
+        _ => return format!("{}-{}ay", &word[1..], first_char),
+    }
 }
 
 fn main() {
-    println!("{}", pig_latenize("Hello world"));
+    println!("{}", pig_latenize("Hello out there world"));
 }
