@@ -29,10 +29,12 @@ fn tokenize_words_and_punctuation(text: &str) -> Vec<String> {
 /// to the end instead ("apple" becomes "apple-hay").  This function retains the capitalization
 /// for words that are capitalized.
 fn pig_latinize_word(word: &String) -> String {
-    let is_upper = word.chars().next().unwrap().is_uppercase();
+    // We need this boolean to perserve capitalized words
+    let first_char_is_uppercase = word.chars().next().unwrap().is_uppercase();
+    // Get the first character of our string to see what pig latinization needs to be done
     let first_char = word.to_lowercase().chars().next().unwrap();
     let mod_word = match first_char {
-        // Starts with Vowel
+        // Starts with vowel
         'a' | 'e' | 'i' | 'o' | 'u' => format!("{}-hay", word),
         // Starts with consonant
         'b' | 'c' | 'd' | 'f' | 'g' | 'h' | 'j' | 'k' | 'l' | 'm' | 'n' | 'p' | 'q' | 'r' | 's'
@@ -40,7 +42,7 @@ fn pig_latinize_word(word: &String) -> String {
         // Any other character
         _ => format!("{}", first_char),
     };
-    if is_upper {
+    if first_char_is_uppercase {
         return format!("{}{}", first_char.to_uppercase(), &word[1..]);
     } else {
         return mod_word;
