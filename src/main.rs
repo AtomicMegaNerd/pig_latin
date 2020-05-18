@@ -21,20 +21,21 @@ fn tokenize_words_and_punctuation(text: &str) -> Vec<String> {
             result.push(ch.to_string());
         }
     }
+    // Handle any sentence that ends with a word.
+    if !token.is_empty() {
+        result.push(token);
+    }
     return result;
 }
 
 /// Convert one word to pig latin. The first consonant is moved to the end of the word and “ay” is
 /// added, so "first" becomes "irst-fay."" If hte word starts with a vowel have "hay" added
-/// to the end instead ("apple" becomes "apple-hay").  This function retains the capitalization
-/// for words that are capitalized.
+/// to the end instead ("apple" becomes "apple-hay").
 fn pig_latinize_word(word: &String) -> String {
-    // We need this boolean to perserve capitalized words
-    let first_char_is_uppercase = word.chars().next().unwrap().is_uppercase();
-    // Get the first character of our string to see what pig latinization needs to be done
+    let is_upper = word.chars().next().unwrap().is_uppercase();
     let first_char = word.to_lowercase().chars().next().unwrap();
     let mod_word = match first_char {
-        // Starts with vowel
+        // Starts with Vowel
         'a' | 'e' | 'i' | 'o' | 'u' => format!("{}-hay", word),
         // Starts with consonant
         'b' | 'c' | 'd' | 'f' | 'g' | 'h' | 'j' | 'k' | 'l' | 'm' | 'n' | 'p' | 'q' | 'r' | 's'
@@ -42,14 +43,18 @@ fn pig_latinize_word(word: &String) -> String {
         // Any other character
         _ => format!("{}", first_char),
     };
-    if first_char_is_uppercase {
-        return format!("{}{}", first_char.to_uppercase(), &word[1..]);
-    } else {
-        return mod_word;
+    if is_upper {
+        return capitalize(&mod_word);
     }
+    return mod_word;
 }
 
-pub fn pig_latenize(text: &str) -> String {
+fn capitalize(word: &str) -> String {
+    let first_char = word.chars().next().unwrap();
+    return format!("{}{}", first_char.to_uppercase(), &word[1..]);
+}
+
+fn pig_latenize(text: &str) -> String {
     tokenize_words_and_punctuation(text)
         .iter()
         .map(pig_latinize_word)
@@ -59,4 +64,8 @@ pub fn pig_latenize(text: &str) -> String {
 
 fn main() {
     println!("{}", pig_latenize("Hello again, out there wonderful world"));
+    println!(
+        "{}",
+        pig_latenize("Today is a fantastic day, and I am so happy!")
+    );
 }
