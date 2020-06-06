@@ -56,7 +56,21 @@ pub fn capitalize(word: &str) -> String {
     return format!("{}{}", first_char.to_uppercase(), &word[1..]);
 }
 
-pub fn pig_latenize(text: &str) -> String {
+/// This function onvert strings to pig latin. The first consonant of each word is moved to the end of the word
+/// and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added
+/// to the end instead (“apple” becomes “apple-hay”).
+///
+/// # Examples
+///
+/// ```
+/// let latinized = pig_latin::pig_latinize("first");
+/// assert_eq!("irst-fay", latinized);
+///
+/// let latinized2 = pig_latin::pig_latinize("Last");
+/// assert_eq!("Ast-lay", latinized2);
+/// ```
+///
+pub fn pig_latinize(text: &str) -> String {
     tokenize_words_and_punctuation(text)
         .iter()
         .map(pig_latinize_word)
