@@ -1,3 +1,10 @@
+//! # pig_latin
+//!
+//! `pig_latin` converts strings to pig latin. The first consonant of each word is moved to the end
+//! of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel
+//! have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details
+//! about UTF-8 encoding!
+
 /// This function takes a string slice and it splits it out by words and by punctuation.
 /// It returns a vector where each item in the vector is either a word or a non-word.  Each
 /// word or non-word character (number or punctuation) is 1 item in the vector
