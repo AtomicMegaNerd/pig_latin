@@ -49,6 +49,14 @@ fn pig_latinize_word(word: &String) -> String {
     return mod_word;
 }
 
+/// This function capitalizes the first character of a word
+///
+/// # Examples
+///
+/// ```
+/// let word = capitalize(String::from("hello"));
+/// println("{}", word) // Prints Hello
+/// ```
 fn capitalize(word: &str) -> String {
     let first_char = word.chars().next().unwrap();
     return format!("{}{}", first_char.to_uppercase(), &word[1..]);
